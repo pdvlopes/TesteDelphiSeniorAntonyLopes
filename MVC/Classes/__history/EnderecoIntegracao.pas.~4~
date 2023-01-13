@@ -1,0 +1,31 @@
+unit EnderecoIntegracao;
+
+interface
+
+uses endereco;
+
+type
+TEnderecoIntegracao = class(TEndereco)
+
+private
+  Fdsuf:string[50];
+  Fnmcidade:string[100];
+  Fnmbairro:string[50];
+  Fnmlogradouro:string[100];
+  Fdscomplemento:string[100];
+public
+
+  property dsuf:string read Getdsuf write Setdsuf;
+  property nmcidade:string read Getnmcidade write Setnmcidade;
+  property nmbairro:string read Getnmbairro write Setnmbairro;
+  property nmlogradouro:string read Getlogradouro write Setnmlogradouro;
+
+
+
+
+
+end;
+
+implementation
+
+end.

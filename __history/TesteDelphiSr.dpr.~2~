@@ -1,0 +1,22 @@
+program TesteDelphiSr;
+
+uses
+  Vcl.Forms,
+  UPrin in 'MVC\Views\UPrin.pas' {Form1},
+  endereco in 'MVC\Classes\endereco.pas',
+  EnderecoIntegracao in 'MVC\Classes\EnderecoIntegracao.pas',
+  Pessoa in 'MVC\Classes\Pessoa.pas',
+  Dao in 'MVC\Dao\Dao.pas',
+  FrmCadCliente in 'MVC\Views\FrmCadCliente.pas' {Form2},
+  PessoaController in 'MVC\Controllers\PessoaController.pas',
+  PessoaModel in 'MVC\Models\PessoaModel.pas';
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TForm1, Form1);
+  Application.CreateForm(TForm2, Form2);
+  Application.Run;
+end.

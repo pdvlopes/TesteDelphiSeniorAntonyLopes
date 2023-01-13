@@ -1,0 +1,94 @@
+unit FrmCadCliente;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls,Pessoa,PessoaController;
+
+type
+  TCadCliente = class(TForm)
+    lblprimeironome: TLabeledEdit;
+    lblsegundonome: TLabeledEdit;
+    lbldocumento: TLabeledEdit;
+    Button1: TButton;
+    Button2: TButton;
+    lblcep: TLabeledEdit;
+    lbluf: TLabeledEdit;
+    lbllogradouro: TLabeledEdit;
+    lblbairro: TLabeledEdit;
+    lblcidade: TLabeledEdit;
+    lblcomplemento: TLabeledEdit;
+    Button3: TButton;
+    procedure FormCreate(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
+    private procedure AlimentaCampos;
+    public procedure RecebeDados(const Pessoa : TPessoa);
+
+  private
+    { Private declarations }
+    Pessoa:TPessoa;
+    ControllerPessoa:TPessoaController;
+  public
+    { Public declarations }
+    Id:Integer;
+  end;
+
+var
+  CadCliente: TCadCliente;
+
+implementation
+
+{$R *.dfm}
+
+procedure TCadCliente.AlimentaCampos;
+begin
+
+  Pessoa:= TPessoa.Create;
+  ControllerPessoa:= TPessoaController.Create;
+
+  Pessoa.nmprimeiro:= lblprimeironome.Text;
+  Pessoa.nmsegundo:= lblsegundonome.Text;
+  Pessoa.dsdocumento:= lbldocumento.Text;
+  Pessoa.dscep:= lblcep.text;
+  Pessoa.dsuf:= lbluf.text;
+  Pessoa.nmbairro:= lblbairro.text;
+  Pessoa.nmcidade:= lblcidade.Text;
+  Pessoa.nmlogradouro:= lbllogradouro.Text;
+  Pessoa.dscomplemento:= lblcomplemento.Text;
+  Pessoa.dtregistro:= Now;
+
+  if Id = 0 then
+      ControllerPessoa.Salvar(Pessoa)
+    else
+      ControllerPessoa.Update(Pessoa);
+
+
+end;
+
+procedure TCadCliente.Button1Click(Sender: TObject);
+begin
+  AlimentaCampos();
+end;
+
+procedure TCadCliente.FormCreate(Sender: TObject);
+begin
+ Id:=0;
+end;
+
+procedure TCadCliente.RecebeDados(const Pessoa: TPessoa);
+begin
+  Pessoa:= TPessoa.Create;
+  lblprimeironome.Text:= Pessoa.nmprimeiro;
+  lblsegundonome.Text:= Pessoa.nmsegundo;
+  lbldocumento.Text:= Pessoa.dsdocumento;
+  lblcep.text:= Pessoa.dscep;
+  lbluf.text:= Pessoa.dsuf;
+  lblbairro.text:= Pessoa.nmbairro;
+  lblcidade.Text:= Pessoa.nmcidade;
+  lbllogradouro.Text:= PEssoa.nmlogradouro;
+  lblcomplemento.Text:= Pessoa.dscomplemento;
+
+end;
+
+end.

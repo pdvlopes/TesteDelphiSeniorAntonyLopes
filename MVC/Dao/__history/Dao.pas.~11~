@@ -1,0 +1,40 @@
+unit Dao;
+
+interface
+
+ uses  FireDAC.Stan.Intf, FireDAC.Stan.Option,
+  FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf, FireDAC.Stan.Def,
+  FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys, FireDAC.Phys.PG,
+  FireDAC.Phys.PGDef, FireDAC.VCLUI.Wait, Data.DB, FireDAC.Comp.Client ;
+type
+TConexao = class
+
+private
+Conexao: TFDConnection;
+public
+constructor create;
+destructor destroy;
+
+end;
+
+implementation
+
+{ TConexao }
+
+constructor TConexao.create;
+begin
+  Conexao = TFDConnection.Create(nil);
+  Conexao.Params.Database:= 'postgres';
+  Conexao.Params.UserName:= 'postgres';
+  Conexao.Params.Password:='123';
+  Conexao.DriverName:= 'PG';
+  Conexao.Params.DriverID:='PG';
+  Conexao.Connected:= True;
+end;
+
+destructor TConexao.destroy;
+begin
+   Conexao.Free;
+end;
+
+end.

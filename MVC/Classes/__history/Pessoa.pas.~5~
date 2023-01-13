@@ -1,0 +1,102 @@
+unit Pessoa;
+
+interface
+type
+TPessoa = class
+ private
+ Fidpessoa:Integer;
+ Fflnatureza:Integer;
+ Fdsdocumento:string[20];
+ Fnmprimeiro:string[100];
+ Fnmsegundo:string[100];
+ Fdtregistro:TDate;
+    function Getidpessoa: integer;
+    procedure Setidpessoa(const Value: integer);
+    function Getdsdoocumento: ShortString;
+    function Getdtregistro: TDate;
+    function Getflnatureza: Integer;
+    function Getnmprimeiro: ShortString;
+    function Getnmsegundo: ShortString;
+    procedure Setdsdocumento(const Value: ShortString);
+    procedure Setdtregistro(const Value: TDate);
+    procedure Setflnatureza(const Value: Integer);
+    procedure Setnmprimeiro(const Value: ShortString);
+    procedure Setnmsegundo(const Value: ShortString);
+
+ public
+
+ property idpessoa:integer read Getidpessoa write Setidpessoa;
+ property flnatureza:Integer read Getflnatureza write Setflnatureza;
+ property dsdocumento:string read Getdsdoocumento write Setdsdocumento;
+ property nmprimeiro:string read Getnmprimeiro write Setnmprimeiro;
+ property nmsegundo:string read Getnmsegundo write Setnmsegundo;
+ property dtregistro:TDate read Getdtregistro write Setdtregistro;
+
+end;
+
+
+implementation
+
+{ TPessoa }
+
+function TPessoa.Getdsdoocumento: ShortString;
+begin
+  Result:= Fdsdocumento;
+end;
+
+function TPessoa.Getdtregistro: TDate;
+begin
+  Result:= Fdtregistro;
+end;
+
+function TPessoa.Getflnatureza: Integer;
+begin
+  Result:= Fflnatureza;
+end;
+
+function TPessoa.Getidpessoa: integer;
+begin
+  Result:= Fidpessoa;
+end;
+
+function TPessoa.Getnmprimeiro: ShortString;
+begin
+  Result:= Fnmprimeiro;
+end;
+
+function TPessoa.Getnmsegundo: ShortString;
+begin
+  Result:= Fnmsegundo;
+end;
+
+procedure TPessoa.Setdsdocumento(const Value: ShortString);
+begin
+  Fdsdocumento := Value;
+end;
+
+procedure TPessoa.Setdtregistro(const Value: TDate);
+begin
+  Fdtregistro:=Value;
+end;
+
+procedure TPessoa.Setflnatureza(const Value: Integer);
+begin
+  flnatureza:= Value;
+end;
+
+procedure TPessoa.Setidpessoa(const Value: integer);
+begin
+  Fidpessoa:= Value;
+end;
+
+procedure TPessoa.Setnmprimeiro(const Value: ShortString);
+begin
+  Fnmprimeiro:= Value;
+end;
+
+procedure TPessoa.Setnmsegundo(const Value: ShortString);
+begin
+   Fnmsegundo:= Value;
+end;
+
+end.
