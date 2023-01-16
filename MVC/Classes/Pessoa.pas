@@ -83,7 +83,7 @@ end;
 
 procedure TPessoa.Setflnatureza(const Value: Integer);
 begin
-  flnatureza:= Value;
+  Fflnatureza:= Value;
 end;
 
 procedure TPessoa.Setidpessoa(const Value: integer);

@@ -1,0 +1,52 @@
+unit IntegracaoController;
+
+interface
+
+uses Pessoa,Endereco_Integracao,Enderecocontroller,FireDAC.Stan.Option, System.SysUtils,
+  FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf, FireDAC.Stan.Def,
+  FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys, FireDAC.Phys.PG,
+  FireDAC.Phys.PGDef, FireDAC.VCLUI.Wait, Data.DB, FireDAC.Comp.Client;
+
+type
+TEnderecoIntegracaoController   = class
+
+private
+  Pessoa:TPessoa;
+  IntegracaoModel :tEndereco_Integracao;
+  Endereco:TEnderecoController;
+  function Localizaendereco(Cep:string):TPessoa;
+public
+  procedure Salvar;
+
+end;
+
+implementation
+
+{ TTEnderecoIntegracaoController   }
+
+function TEnderecoIntegracaoController.Localizaendereco(Cep: string): TPessoa;
+begin
+  IntegracaoModel:= tEndereco_Integracao.Create;
+  Result:= IntegracaoModel.LocalizarEndereco(Cep);
+end;
+procedure TEnderecoIntegracaoController.Salvar;
+var
+  EnderecoBase:TFDQuery;
+begin
+  Endereco:= TEnderecoController.Create;
+  EnderecoBase:= TFDQuery.Create(nil);
+  EnderecoBase.Data:= Endereco.SelecionaEndereco().Data;
+  IntegracaoModel:= tEndereco_Integracao.Create;
+  Pessoa:= TPessoa.Create;
+   EnderecoBase.First;
+
+   while Not  EnderecoBase.Eof do
+    begin
+      Pessoa:= Localizaendereco(EnderecoBase.FieldByName('dscep').AsString);
+      IntegracaoModel.Salvar(Pessoa,EnderecoBase.FieldByName('idendereco').AsInteger);
+      EnderecoBase.Next;
+    end;
+
+end;
+
+end.

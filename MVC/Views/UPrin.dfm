@@ -2,7 +2,7 @@ object Form1: TForm1
   Left = 0
   Top = 0
   Caption = 'Sistema de Cadastros'
-  ClientHeight = 356
+  ClientHeight = 336
   ClientWidth = 701
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -15,14 +15,48 @@ object Form1: TForm1
   Position = poDesktopCenter
   PixelsPerInch = 96
   TextHeight = 13
+  object memo: TMemo
+    Left = 0
+    Top = 0
+    Width = 701
+    Height = 336
+    Align = alClient
+    TabOrder = 0
+    ExplicitTop = 32
+    ExplicitHeight = 304
+  end
+  object lblcep: TLabeledEdit
+    Left = 464
+    Top = 16
+    Width = 121
+    Height = 21
+    EditLabel.Width = 27
+    EditLabel.Height = 13
+    EditLabel.Caption = 'lblcep'
+    TabOrder = 1
+  end
+  object Button1: TButton
+    Left = 591
+    Top = 14
+    Width = 90
+    Height = 25
+    Caption = 'Consulta Cep'
+    TabOrder = 2
+    OnClick = Button1Click
+  end
   object MainMenu1: TMainMenu
     Left = 192
     Top = 48
     object CadastrodeClientes2: TMenuItem
       Caption = 'Cadastro de Clientes'
+      OnClick = CadastrodeClientes2Click
     end
     object ImportarclientesTXT2: TMenuItem
       Caption = 'Importar clientes TXT'
+    end
+    object AtualizaEndereoTrhead1: TMenuItem
+      Caption = 'Atualizar Endere'#231'os'
+      OnClick = AtualizaEndereoTrhead1Click
     end
   end
 end

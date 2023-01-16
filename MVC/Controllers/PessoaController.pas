@@ -2,13 +2,14 @@ unit PessoaController;
 
 interface
 
-uses Pessoa,PessoaModel,System.Classes,System.SysUtils,Vcl.Dialogs;
+uses Pessoa,PessoaModel,System.Classes,System.SysUtils,Vcl.Dialogs,Enderecocontroller;
 
 type
 TPessoaController = class(TPessoa)
 
 private
 PessoaModel : TPessoaModel;
+Enderecocontroller: TEnderecoController;
 
 public
 public function Salvar(const Pessoa:TPessoa):Boolean;
@@ -37,16 +38,28 @@ begin
   if Validar(Pessoa) then
     begin
       PessoaModel:= TPessoaModel.Create;
-      Result:= PessoaModel.InsertEmLote(Pessoa);
+      Result:= PessoaModel.Salvar(Pessoa);
     end;
 end;
 
 function TPessoaController.Salvar(const Pessoa: TPessoa): Boolean;
+ var
+  IdPessoa:Integer;
 begin
   if Validar(Pessoa) then
     begin
       PessoaModel := TPessoaModel.Create;
-      Result:= PessoaModel.Salvar(Pessoa);
+      Enderecocontroller:= TEnderecoController.create;
+      try
+        IdPessoa:= PessoaModel.CapturarValorSequence();
+        PessoaModel.Salvar(Pessoa);
+        Enderecocontroller.Salvar(Pessoa,IdPessoa);
+        Result:= True;
+        ShowMessage('Salvo Com sucesso!');
+      except
+        raise Exception.Create('Error ao salvar.');
+
+      end;
     end;
 end;
 
@@ -61,24 +74,15 @@ end;
 
 function TPessoaController.Validar(const Pessoa: TPessoa): Boolean;
 begin
-  if Pessoa.flnatureza = 0 then
-    raise Exception.Create('Selecione a natureza');
+
   if Pessoa.dsdocumento = '' then
     raise Exception.Create('Digite o documento');
   if Pessoa.nmprimeiro = '' then 
     raise Exception.Create('Digite o primeiro Nome');
   if Pessoa.nmsegundo ='' then
     raise Exception.Create('Digite segundo nome');
-  if Pessoa.dscep = '' then
-    raise Exception.Create('Digite o cep');
-  if Pessoa.dsuf = '' then
-    raise Exception.Create('Digite a uf');
-  if Pessoa.nmcidade = '' then
-    raise Exception.Create('Digite a cidade');
-  if Pessoa.nmbairro = '' then
-    raise Exception.Create('Digite o bairro');
-  if Pessoa.nmlogradouro = '' then
-    raise Exception.Create('Digite o lagradouro');
+  if (Pessoa.dscep = '') or (Length(Pessoa.dscep) < 8)  then
+    raise Exception.Create('Digite o cep com 8 digitos.');
 
   result:= True;
 

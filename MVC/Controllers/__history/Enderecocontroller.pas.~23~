@@ -1,0 +1,65 @@
+unit Enderecocontroller;
+
+interface
+
+uses Pessoa,EnderecoModel,FireDAC.Stan.Option, System.SysUtils,
+  FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf, FireDAC.Stan.Def,
+  FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys, FireDAC.Phys.PG,
+  FireDAC.Phys.PGDef, FireDAC.VCLUI.Wait, Data.DB, FireDAC.Comp.Client;
+
+type
+TEnderecoController = class
+private
+EnderecoModel : TEnderecoModel;
+
+public
+public function Salvar(const Pessoa:TPessoa;IdPessoa:integer):Boolean;
+public function Deletar(Id:Integer):boolean;
+public function Update(const Pessoa:TPessoa;Id:integer):Boolean;
+public function SelecionaEndereco:TFDQuery;
+
+end;
+
+implementation
+
+{ TEnderecoController }
+
+function TEnderecoController.Deletar(Id: Integer): boolean;
+begin
+if Id <> 0 then
+  begin
+    try
+      EnderecoModel:= TEnderecoModel.Create;
+      Result:= EnderecoModel.Deletar(Id);
+
+    finally
+      EnderecoModel.Free;
+    end;
+  end;
+
+
+end;
+
+function TEnderecoController.Salvar(const Pessoa: TPessoa;IdPessoa:integer): Boolean;
+begin
+  EnderecoModel:= TEnderecoModel.Create;
+  Result:= EnderecoModel.Salvar(Pessoa,IdPessoa);
+end;
+
+function TEnderecoController.SelecionaEndereco: TFDQuery;
+begin
+  EnderecoModel= TEnderecoModel.Create
+end;
+
+function TEnderecoController.Update(const Pessoa: TPessoa;
+  Id: integer): Boolean;
+begin
+ if Id <> 0 then
+   begin
+     EnderecoModel:= TEnderecoModel.Create;
+     Result:= EnderecoModel.Update(Pessoa);
+   end;
+
+end;
+
+end.

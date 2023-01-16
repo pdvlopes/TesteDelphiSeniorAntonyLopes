@@ -11,6 +11,7 @@ object CadCliente: TCadCliente
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  Position = poMainFormCenter
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
@@ -27,7 +28,7 @@ object CadCliente: TCadCliente
   object lblsegundonome: TLabeledEdit
     Left = 215
     Top = 32
-    Width = 234
+    Width = 255
     Height = 21
     EditLabel.Width = 58
     EditLabel.Height = 13
@@ -46,29 +47,33 @@ object CadCliente: TCadCliente
   end
   object Button1: TButton
     Left = 8
-    Top = 107
+    Top = 127
     Width = 75
     Height = 25
     Caption = 'Gravar'
-    TabOrder = 3
+    TabOrder = 5
     OnClick = Button1Click
   end
   object lblcep: TLabeledEdit
     Left = 215
     Top = 72
-    Width = 97
+    Width = 106
     Height = 21
     EditLabel.Width = 19
     EditLabel.Height = 13
     EditLabel.Caption = 'CEP'
-    TabOrder = 4
+    TabOrder = 3
   end
-  object Button3: TButton
-    Left = 318
-    Top = 70
-    Width = 75
-    Height = 25
-    Caption = 'Pesquisa'
-    TabOrder = 5
+  object RdNatureza: TRadioGroup
+    Left = 327
+    Top = 59
+    Width = 130
+    Height = 93
+    Caption = 'Natureza'
+    ItemIndex = 1
+    Items.Strings = (
+      '0 - Pessoa Juridica'
+      '1 - Pessoa F'#237'sica')
+    TabOrder = 4
   end
 end

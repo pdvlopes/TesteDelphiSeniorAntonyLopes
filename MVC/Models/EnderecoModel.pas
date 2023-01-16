@@ -2,21 +2,22 @@ unit EnderecoModel;
 
 interface
 
-uses Pessoa,Dao,FireDAC.Stan.Option,
+uses Pessoa,Dao,FireDAC.Stan.Option, System.SysUtils,
   FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf, FireDAC.Stan.Def,
   FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys, FireDAC.Phys.PG,
-  FireDAC.Phys.PGDef, FireDAC.VCLUI.Wait, Data.DB, FireDAC.Comp.Client ;
+  FireDAC.Phys.PGDef, FireDAC.VCLUI.Wait, Data.DB, FireDAC.Comp.Client,Endereco_Integracao;
 
 type
 TEnderecoModel = class
 private
 Conexao:TConexao;
 Qry:TFDQuery;
+Pessoa:TPessoa;
 
-public function Salvar(const Pessoa:TPessoa):Boolean;
+public function Salvar(const Pessoa:TPessoa;IdPessoa:integer):Boolean;
 public function Deletar(Id:Integer):boolean;
-public function Update(const Pessoa:TPessoa;Id:integer):Boolean;
-public function InsertEmLote(const Pessoa:TPessoa):Boolean;
+public function Update(const Pessoa:TPessoa):Boolean;
+public procedure SelecionaEnderecos;
 
 end;
 
@@ -34,7 +35,7 @@ try
     Qry:= TFDQuery.Create(nil);
     Qry.Connection:= Conexao.Pdo;
     Qry.SQL.Add('DELETE FROM endereco WHERE idpessoa =:pId');
-    Qry.Params.ParamByName('pId').AsInteger:= 0;
+    Qry.Params.ParamByName('pId').AsInteger:= Id;
     try
       Qry.ExecSQL;
       Result:= true;
@@ -48,21 +49,16 @@ try
 
 end;
 
-function TEnderecoModel.InsertEmLote(const Pessoa: TPessoa): Boolean;
-begin
-
-end;
-
-function TEnderecoModel.Salvar(const Pessoa: TPessoa): Boolean;
+function TEnderecoModel.Salvar(const Pessoa: TPessoa;IdPessoa:integer): Boolean;
 begin
 try
     Conexao:= TConexao.create;
     Qry:= TFDQuery.Create(nil);
     Qry.Connection:= Conexao.Pdo;
-    Qry.SQL.Add('INSERT INTO pessoa(idpessoa,dscep)');
+    Qry.SQL.Add('INSERT INTO endereco(idpessoa,dscep)');
     Qry.SQL.Add('VALUES(:pidpessoa,:pdscep)');
 
-    Qry.Params.ParamByName('pidpessoa').AsInteger:= PEssoa.idpessoa;
+    Qry.Params.ParamByName('pidpessoa').AsInteger:= IdPessoa;
     Qry.Params.ParamByName('pdscep').AsString:= Pessoa.dscep;
 
     try
@@ -78,7 +74,42 @@ try
 
 end;
 
-function TEnderecoModel.Update(const Pessoa: TPessoa; Id: integer): Boolean;
+procedure TEnderecoModel.SelecionaEnderecos;
+var
+Integracao:TEndereco_Integracao;
+ModelIntegracao: TEndereco_Integracao;
+begin
+  try
+    Conexao:= TConexao.create;
+    Qry:= TFDQuery.Create(nil);
+    Pessoa:= TPessoa.Create;
+    Integracao:=TEndereco_Integracao.create;
+    ModelIntegracao:= TEndereco_Integracao.create;
+    Qry.Connection:= Conexao.Pdo;
+    Qry.SQL.Add('SELECT * FROM endereco');
+
+    try
+      Qry.Open;
+      Qry.First;
+
+     while Not Qry.Eof do
+       begin
+         Pessoa:= Integracao.LocalizarEndereco(Qry.FieldByName('dscep').AsString);
+         ModelIntegracao.Salvar(Pessoa,Qry.FieldByName('idendereco').AsInteger);
+         Qry.Next;
+       end;
+
+
+    except
+       raise Exception.Create('Error ao selecionar endereços.');
+    end;
+  finally
+    Conexao.Free;
+    Qry.Free;
+  end;
+end;
+
+function TEnderecoModel.Update(const Pessoa: TPessoa): Boolean;
 begin
 
  try
